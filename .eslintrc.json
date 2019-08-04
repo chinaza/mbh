@@ -1,0 +1,34 @@
+{
+  "extends": ["plugin:prettier/recommended"],
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2018
+  },
+  "rules": {
+    "prefer-arrow-callback": "warn",
+    "no-var": "warn",
+    "no-const-assign": "error",
+    "block-scoped-var": "error",
+    "camelcase": "warn",
+    "default-case": "error",
+    "handle-callback-err": "warn",
+    "no-path-concat": "error",
+    "no-shadow": "error",
+    "no-undef": "error",
+    "no-unreachable": "error",
+    "no-unused-expressions": "warn",
+    "no-unused-vars": "warn",
+    "no-redeclare": "error",
+    "vars-on-top": "error",
+    "spaced-comment": "warn",
+    "strict": "error",
+    "prefer-template": "warn",
+    "prefer-const": "error",
+    "no-useless-concat": "warn",
+    "no-use-before-define": "error"
+  }
+}
