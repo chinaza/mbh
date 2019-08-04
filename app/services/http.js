@@ -15,6 +15,7 @@ class Http {
       const result = await this.http.request({
         url,
         method,
+        headers,
         ...reqParams
       });
 
