@@ -4,7 +4,7 @@ const path = require('path');
 
 const apiRouter = require('./api');
 
-router.use(express.static(path.join(__dirname, 'public')));
+router.use(express.static(path.join(__dirname, '../public')));
 
 router.use('/api', apiRouter);
 
