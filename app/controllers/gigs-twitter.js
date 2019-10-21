@@ -5,7 +5,7 @@ const requestCountry = require('request-country');
 module.exports = {
   async queryGigs(req, res) {
     try {
-      let { q = '', pos } = req.query;
+      let { q = '', pos } = req.body;
       const country = requestCountry(req);
 
       // Build job seaarch query

@@ -3,7 +3,7 @@ const router = express.Router();
 
 const gigsCtrl = require('../../app/controllers/gigs-twitter');
 
-router.get('/gigs', gigsCtrl.queryGigs);
+router.post('/gigs', gigsCtrl.queryGigs);
 
 router.use((req, res) => {
   return res.status(404).send({
