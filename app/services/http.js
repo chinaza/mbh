@@ -1,16 +1,16 @@
 const axios = require('axios').default;
 
 class Http {
-  constructor(baseUrl, headers) {
+  constructor(baseURL, headers) {
     this.http = axios.create({
-      baseUrl,
+      baseURL,
       headers
     });
   }
 
   async makeRequest({ url, data = {}, method = 'get', headers = {} }) {
     try {
-      const reqParams = { [method == 'get' ? 'params' : 'data']: data };
+      const reqParams = { [method === 'get' ? 'params' : 'data']: data };
 
       const result = await this.http.request({
         url,
@@ -21,17 +21,17 @@ class Http {
 
       return { response: result.data, status: result.status };
     } catch (error) {
-      switch (true) {
-        case error.response:
-          throw new Error(
-            error.response.data
-              ? error.response.data.message
-              : error.response.data
-          );
-        case error.request:
-          throw new Error(error.message);
-        default:
-          throw new Error('An error occured processing your request');
+      if (error.response) {
+        // Response from server w/ error
+        throw new Error(
+          error.response.data
+            ? error.response.data.message
+            : error.response.data
+        );
+      } else {
+        throw new Error(
+          error.message || 'A network/ timeout error has occured.'
+        );
       }
     }
   }
