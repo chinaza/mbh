@@ -10,7 +10,7 @@ module.exports = {
 
       // Build job seaarch query
       q = `(${q} ${country ||
-        ''}) ((ongoing OR URGENT OR job OR role OR work) (recruitment OR vacancy OR hiring))`;
+        ''}) ((ongoing OR URGENT OR job OR role) (recruitment OR vacancy OR hiring))`;
 
       const tweets = await twitter.searchTweets({
         q
