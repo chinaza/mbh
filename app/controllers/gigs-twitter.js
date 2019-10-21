@@ -1,12 +1,14 @@
 const twitter = require('../services/twitter');
 const { Err } = require('../../helpers');
 const requestCountry = require('request-country');
+const { getName } = require('country-list');
 
 module.exports = {
   async queryGigs(req, res) {
     try {
       let { q = '', pos } = req.body;
-      const country = requestCountry(req);
+      let country = requestCountry(req);
+      country = country ? getName(country) : '';
 
       // Build job seaarch query
       q = `(${q} ${country ||
