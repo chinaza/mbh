@@ -1,14 +1,22 @@
 const Http = require('./http');
 const Config = require('../../config');
-const { Random } = require('../../helpers');
+const qs = require('querystring');
+
+const { Random, Crypt } = require('../../helpers');
 
 class Twitter {
   constructor() {
-    this._setupOauthRequest();
     this.config = {
       baseUrl: 'https://api.twitter.com',
-      consumerKey: Config.getVal('CONSUMER_KEY')
+      consumerKey: Config.getVal('TW_CONSUMER_KEY'),
+      bearerToken: '',
+      consumerSecret: Config.getVal('TW_CONSUMER_SECRET')
     };
+    // this._setupOauthRequest();
+
+    this.http = new Http(this.config.baseUrl);
+
+    this._generateAppAuthToken();
   }
 
   _buildOauthAuthString({ callbackUrl }) {
@@ -27,6 +35,50 @@ class Twitter {
   _setupOauthRequest() {
     this.oauthHttp = new Http(`${this.config.baseUrl}/oauth`, {});
   }
+
+  async _generateAppAuthToken() {
+    try {
+      const { response } = await this.http.makeRequest({
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Basic ${Crypt.b64Encode(
+            `${this.config.consumerKey}:${this.config.consumerSecret}`
+          )}`
+        },
+        method: 'post',
+        url: '/oauth2/token',
+        data: qs.stringify({
+          grant_type: 'client_credentials'
+        })
+      });
+
+      this.config.bearerToken = response.access_token;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async searchTweets({ q, limit = 100, sort = 'recent', opts = {} }) {
+    try {
+      const { response } = await this.http.makeRequest({
+        headers: {
+          Authorization: `Bearer ${this.config.bearerToken}`
+        },
+        method: 'get',
+        data: {
+          q,
+          count: limit,
+          result_type: sort,
+          ...opts
+        },
+        url: '/1.1/search/tweets.json'
+      });
+
+      return response.statuses;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
-module.exports = Twitter;
+module.exports = new Twitter();
