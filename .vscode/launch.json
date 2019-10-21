@@ -11,8 +11,11 @@
       "runtimeExecutable": "nodemon",
       "program": "${workspaceFolder}/bin/www",
       "restart": true,
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**/*.js",
+        "<eval>/**"
+      ]
     }
   ]
 }
