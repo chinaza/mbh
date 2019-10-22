@@ -12,7 +12,7 @@ module.exports = {
 
       // Build job seaarch query
       q = `(${q} ${country ||
-        ''}) ((ongoing OR URGENT OR job OR role) (recruitment OR vacancy OR hiring)) -brexit`;
+        ''}) ((ongoing OR URGENT OR job OR role) (recruitment OR vacancy OR hiring)) -brexit -(who knows ?) -filter:retweets`;
 
       let opts = {};
       if (pos) {
