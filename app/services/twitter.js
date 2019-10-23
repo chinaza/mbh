@@ -79,6 +79,25 @@ class Twitter {
       throw error;
     }
   }
+
+  async getTweet(id) {
+    try {
+      const { response } = await this.http.makeRequest({
+        url: '/1.1/statuses/show.json',
+        headers: {
+          Authorization: `Bearer ${this.config.bearerToken}`
+        },
+        method: 'get',
+        data: {
+          id
+        }
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = new Twitter();

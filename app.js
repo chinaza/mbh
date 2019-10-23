@@ -7,7 +7,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 const Sentry = require('@sentry/node');
 
-require('./config');
+const Config = require('./config');
+new Config();
 
 const router = require('./routes/index');
 
