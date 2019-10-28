@@ -4,6 +4,7 @@ const requestCountry = require('request-country');
 const { getName } = require('country-list');
 
 const GigsClick = require('../models/mongo/gigs-click');
+const GigsQFilter = require('../models/mongo/gigs-qfilter');
 
 module.exports = {
   async queryGigs(req, res) {
@@ -13,9 +14,13 @@ module.exports = {
       let country = requestCountry(req);
       country = country ? getName(country) : '';
 
+      // Retrieve filtered keywords
+      let filtKw = await GigsQFilter.find().lean();
+      filtKw = filtKw.map(f => `-${f.keyword}`).join(' ');
+
       // Build job seaarch query
       q = `(${q} ${country ||
-        ''}) ((ongoing OR URGENT OR job OR role) (recruitment OR vacancy OR hiring OR alert)) -brexit -((who OR anyone) knows) -filter:retweets`;
+        ''}) ((ongoing OR URGENT OR job OR role) (recruitment OR vacancy OR hiring OR alert)) -filter:retweets ${filtKw}`;
 
       let opts = {};
       if (pos) {
