@@ -21,13 +21,14 @@ class Http {
 
       return { response: result.data, status: result.status };
     } catch (error) {
-      console.error(error);
       if (error.response) {
         // Response from server w/ error
         throw new Error(
-          error.response.data
+          error.response.data && error.response.data.message
             ? error.response.data.message
-            : error.response.data
+            : typeof error.response.data === 'string'
+            ? error.response.data
+            : error.response.statusText
         );
       } else {
         throw new Error(
