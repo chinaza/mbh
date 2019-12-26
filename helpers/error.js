@@ -7,6 +7,7 @@ module.exports = {
 
   ctrlErrorResponse(err, res) {
     const { code = 500, message } = err || { message: err };
+    console.error(err);
     return res.status(code).send({ message });
   }
 };
