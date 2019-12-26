@@ -21,6 +21,7 @@ class Http {
 
       return { response: result.data, status: result.status };
     } catch (error) {
+      console.error(error);
       if (error.response) {
         // Response from server w/ error
         throw new Error(
