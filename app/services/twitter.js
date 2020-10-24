@@ -60,17 +60,19 @@ class Twitter {
 
   async searchTweets({ q, limit = 100, sort = 'recent', opts = {} }) {
     try {
+      const data = {
+        q,
+        count: limit,
+        result_type: sort,
+        ...opts
+      };
+
       const { response } = await this.http.makeRequest({
         headers: {
           Authorization: `Bearer ${this.config.bearerToken}`
         },
         method: 'get',
-        data: {
-          q,
-          count: limit,
-          result_type: sort,
-          ...opts
-        },
+        data,
         url: '/1.1/search/tweets.json'
       });
 

@@ -19,8 +19,9 @@ module.exports = {
       filtKw = filtKw.map(f => `-${f.keyword}`).join(' ');
 
       // Build job seaarch query
-      q = `(${q} ${country ||
-        ''}) ((ongoing OR URGENT OR job OR role OR team) (recruitment OR vacancy OR hiring OR alert)) -filter:retweets ${filtKw}`;
+      q = `(${q} ${
+        !pos ? country || '' : ''
+      }) ((ongoing OR URGENT OR job OR role OR team) (recruitment OR vacancy OR hiring OR alert)) -filter:retweets ${filtKw}`;
 
       let opts = {};
       if (pos) {
